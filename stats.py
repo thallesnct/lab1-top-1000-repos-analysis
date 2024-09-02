@@ -21,8 +21,8 @@ def seconds_to_time_string(seconds):
     
     return result
 
-def calculate_medians(pd_instance):
-    pd_copy = pd_instance.copy()
+def calculate_medians(pd_instance, should_copy=True):
+    pd_copy = pd_instance.copy() if should_copy is True else pd_instance
     pd_copy["repo_age"] = pd_copy["time_since_created_at_in_seconds"].median() # RQ1
     pd_copy["pull_requests_accepted_median"] = pd_copy["pull_requests_accepted"].median() # RQ2
     pd_copy["releases_count_median"] = pd_copy["releases_count"].median() # RQ3
@@ -64,13 +64,67 @@ def calculate_and_print_percentage_of_most_popular_languages(pd_instance, langua
     plt.savefig('most_popular_languages_pct_chart.png', format='png')
 
 
+def calculate_for_each_lang(pd_instance, language_indexes_list, language_list):
+    dataframes = list()
+    for language in language_list:
+        last_index = len(dataframes)
+        lang_specific_dataframe = pd_instance[pd_instance['primary_language'] == language]
+        medians = lang_specific_dataframe[['pull_requests_accepted', 'releases_count', 'time_since_last_update_in_seconds']].median()
+        data = {
+            'pull_requests_accepted': [medians['pull_requests_accepted']], 
+            'releases_count': [medians['releases_count']], 
+            'time_since_last_update_in_seconds': [medians['time_since_last_update_in_seconds']] 
+        }
+        dataframes.append(pd.DataFrame(data))
+    # Combine the DataFrames into a single DataFrame
+
+    combined_df = pd.concat(dataframes, ignore_index=True)
+    for column in ['pull_requests_accepted', 'releases_count', 'time_since_last_update_in_seconds']:
+        plt.figure(figsize=(18, 6))
+
+        # Divide o dataframe em 3 para facilitar a visualização dos dados em formator de gráfico
+        df_first_14 = combined_df.iloc[:14]
+        df_first_14_labels = [language_list[lang_index] for lang_index in df_first_14.index]
+        df_middle_14_to_28 = combined_df.iloc[14:28]
+        df_middle_14_to_28_labels = [language_list[lang_index] for lang_index in df_middle_14_to_28.index]
+        df_remaining_items = combined_df.iloc[28:]
+        df_remaining_items_labels = [language_list[lang_index] for lang_index in df_remaining_items.index]
+
+        # Plota o primeiro grafico
+        plt.subplot(1, 3, 1)
+        plt.bar(df_first_14_labels, df_first_14[column], color=plt.cm.Paired.colors)
+        plt.xticks(rotation=90)
+        plt.title(f'{column} (First 14 Rows)')
+        plt.xlabel('Linguagem')
+        plt.ylabel(f'{column}')
+
+        # Plota o segundo grafico
+        plt.subplot(1, 3, 2)
+        plt.bar(df_middle_14_to_28_labels, df_middle_14_to_28[column], color=plt.cm.Paired.colors)
+        plt.xticks(rotation=90)
+        plt.title(f'{column} (Next 14 Rows)')
+        plt.xlabel('Linguagem')
+        plt.ylabel(f'{column}')
+
+        # Plota o terceiro grafico
+        plt.subplot(1, 3, 3)
+        plt.bar(df_remaining_items_labels, df_remaining_items[column], color=plt.cm.Paired.colors)
+        plt.xticks(rotation=90)
+        plt.title(f'{column} (Remaining Rows)')
+        plt.xlabel('Linguagem')
+        plt.ylabel(f'{column}')
+
+        # Ajustar layout para previnir sobreposição entre os gráficos
+        plt.tight_layout()
+        plt.savefig(f'separated_by_language-{column}.png', format='png')
+
 
 if __name__ == '__main__':
     data = pd.read_csv('github_repositories_data.csv')
     language_list = []
 
     with open('language_list.txt', mode='r', newline='') as file:
-        language_list = file.readlines()
+        language_list = [item.replace("\n", "") for item in file.readlines()]
 
     most_popular_languages_indexes = []
 
@@ -78,11 +132,6 @@ if __name__ == '__main__':
         most_popular_languages_indexes = [int(item) for item in file.readlines()]
         
     data_with_medians = calculate_medians(data)
-    # Set up the plotting area
-    # plt.figure(figsize=(12, 8))
-
-    # Plot each column
-    # print(data_with_medians.at[1, "pull_requests_accepted_median"])
     print("Mediana da idade dos repositorios analisados: " + seconds_to_time_string(data_with_medians.at[1, "repo_age"])) # RQ1
     print("Mediana do numero de pull requests aceitos dos repositorios analisados: " + str(data_with_medians.at[1, "pull_requests_accepted_median"])) #RQ2
     print("Mediana do numero de releases dos repositorios analisados: " + str(data_with_medians.at[1, "releases_count_median"])) #RQ3
@@ -91,20 +140,4 @@ if __name__ == '__main__':
     print("Mediana do percentual de issues fechadas dos repositorios analisados: " + str(data_with_medians.at[1, "closed_issues_ratio_median"])) #RQ6
 
     calculate_and_print_percentage_of_most_popular_languages(data, most_popular_languages_indexes, language_list)
-    # for column in ["pull_requests_accepted", "releases_count", "time_since_last_update", "closed_issues_ratio"]:
-        # print(data_with_medians.at[1, column])
-        # plt.plot(data_with_medians.index, data_with_medians[column], label=column, marker='o')
-
-    # Add titles and labels
-    # plt.title('Comparison of Different Metrics')
-    # plt.xlabel('Index')
-    # plt.ylabel('Values')
-
-    # Add a legend
-    # plt.legend()
-
-    # Show the grid for better readability
-    # plt.grid(True)
-
-    # Display the plot
-    # plt.show()
+    calculate_for_each_lang(data, most_popular_languages_indexes, language_list)

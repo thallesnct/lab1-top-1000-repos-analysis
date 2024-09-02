@@ -64,3 +64,11 @@ Métrica: razão entre número de issues fechadas pelo total de issues
 R: Sim, a mediana nos indica que cerca de 86,81% das issues dos repositórios analisados são fechadas.
 
 Para responder esta pergunta, foi calculada a mediana da coluna `closed_issues_ratio_median` presente em `github_repositories_data.csv`.
+
+### RQ 07: Sistemas escritos em linguagens mais populares recebem mais contribuição externa, lançam mais releases e são atualizados com mais frequência?
+
+R: Não. Após analisar os dados com relação aos fatores acima separados por linguagem, é possível perceber que não necessáriamente as 10 linguagens mais populares figuram entre o Top 10 entre as linguagens com maior frequência de contribuição externa. O mesmo é valido quando questionamos a quantidade de releases lançadas e a frequência de atualização.
+
+![Gráfico com porcentagem de PRs aceitas separada por linguagem](./separated_by_language-pull_requests_accepted.png)
+![Gráfico com quantidade de releases separada por linguagem](./separated_by_language-releases_count.png)
+![Gráfico com frequência de atualizações separada por linguagem](./separated_by_language-time_since_last_update_in_seconds.png)
