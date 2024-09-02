@@ -20,7 +20,7 @@ Em sequencia é calculada a porcentagem dos repositórios analisados que utiliza
 
 Métrica: idade do repositório (calculado a partir da data de sua criação)
 
-R: Pela analise realizada é possível dizer que sim, pois a mediana calculada indica um periodo de existencia dos repositórios de 97 meses, 16 dias, 5 horas, 5 minutos e 19 segundos. 
+R: Pela analise realizada é possível dizer que sim, pois a mediana calculada indica um periodo de existencia dos repositórios de `97 meses, 16 dias, 5 horas, 5 minutos e 19 segundos`. 
 
 Para responder esta pergunta, foi calculada a mediana da coluna `time_since_created_at_in_seconds` presente em `github_repositories_data.csv` e foi realizada uma transformação do valor bruto (dado em segundos) para a string apresentada com meses, dias, horas, minutos e segundos.
 
@@ -28,7 +28,7 @@ Para responder esta pergunta, foi calculada a mediana da coluna `time_since_crea
 
 Métrica: total de pull requests aceitas
 
-R: Pode-se dizer que sim, pois a mediana da quantidade de *pull requests* aceitas dos repositórios analisados é de 578,5 e se levarmos em consideração também a mediana de idade dos repositórios isso nos dá uma média de aproximadamente 72 *pull requests* por ano, sendo este um número considerável.
+R: Pode-se dizer que sim, pois a mediana da quantidade de *pull requests* aceitas dos repositórios analisados é de `578,5` e se levarmos em consideração também a mediana de idade dos repositórios isso nos dá uma média de `aproximadamente 72 pull requests por ano`, sendo este um número considerável.
 
 Para responder esta pergunta, foi calculada a mediana da coluna `pull_requests_accepted` presente em `github_repositories_data.csv`.
 
@@ -36,7 +36,7 @@ Para responder esta pergunta, foi calculada a mediana da coluna `pull_requests_a
 
 Métrica: total de releases
 
-R: Não, pois a mediana da quantidade de releases dos 1000 repositórios analisados é apenas 30, e se levarmos em consideração também a mediana de idade dos repositórios isso nos dá uma média de apenas cerca de 3,75 releases por ano. Se removermos da equação aqueles repositórios com 1 ou menos releases, sendo esses repositórios geralmente relacionados a conteudos de estudo e coisas similares, obtemos a mediana de 80 releases, o que daria cerca de 10 releases por ano, já sendo este um valor mais considerável.
+R: Não, pois a mediana da quantidade de releases dos 1000 repositórios analisados é apenas `30`, e se levarmos em consideração também a mediana de idade dos repositórios isso nos dá uma média de apenas `cerca de 3,75 releases por ano`. Se removermos da equação aqueles repositórios com 1 ou menos releases, sendo esses repositórios geralmente relacionados a conteudos de estudo e coisas similares, obtemos a mediana de `80` releases, o que daria `cerca de 10 releases por ano`, já sendo este um valor mais considerável.
 
 Para responder esta pergunta, foi calculada a mediana da coluna `releases_count_median` presente em `github_repositories_data.csv`. Após isso, foi realizada a mesma análise porém em uma versão dos dados de `github_repositories_data.csv` que excluia itens com 1 ou menos releases.
 
@@ -45,7 +45,7 @@ Para responder esta pergunta, foi calculada a mediana da coluna `releases_count_
 Métrica: tempo até a última atualização (calculado a partir da data de última
 atualização)
 
-R: Pela analise realizada é possível dizer que sim, pois a mediana calculada indica a ocorrencia de atualizações repositórios há menos de 2 horas, 8 minutos e 25 segundos. 
+R: Pela analise realizada é possível dizer que sim, pois a mediana calculada indica a ocorrencia de atualizações repositórios há menos de `2 horas, 8 minutos e 25 segundos`. 
 
 Para responder esta pergunta, foi calculada a mediana da coluna `time_since_last_update` presente em `github_repositories_data.csv` e foi realizada uma transformação do valor bruto (dado em segundos) para a string apresentada com meses, dias, horas, minutos e segundos.
 
@@ -53,7 +53,9 @@ Para responder esta pergunta, foi calculada a mediana da coluna `time_since_last
 
 Métrica: linguagem primária de cada um desses repositórios
 
-R: Sim, ao realizar a análise de quantos dos 1000 repositórios analisados utilizam uma das 10 linguagens mais populares atualmente foi obtido o resultado de que aproximadamente 70,1% destes repositórios está utilizando uma dessas 10 linguagens, se tratando de um número altamente expressivo. Vale adicionar também que as 3 linguagens mais populares (JavaScript, Python e Typescript) compõem 45,3% dos repositórios analisados.
+R: Sim, ao realizar a análise de quantos dos 1000 repositórios analisados utilizam uma das 10 linguagens mais populares atualmente foi obtido o resultado de que aproximadamente `70,1% destes repositórios está utilizando uma dessas 10 linguagens`, se tratando de um número altamente expressivo. Vale adicionar também que `as 3 linguagens mais populares (JavaScript, Python e Typescript) compõem 45,3% dos repositórios analisados`.
+
+![Gráfico com porcentagem de uso de cada linguagem](./most_popular_languages_pct_chart.png)
 
 ### RQ 06. Sistemas populares possuem um alto percentual de issues fechadas?
 
